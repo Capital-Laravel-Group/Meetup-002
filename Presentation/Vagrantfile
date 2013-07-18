@@ -21,14 +21,14 @@ Vagrant::Config.run do |config|
   config.vm.box_url = "http://files.vagrantup.com/precise32.box"
 
   # Increase memory of the VM
-  config.vm.customize ["modifyvm", :id, "--memory", 512]
+  config.vm.customize ["modifyvm", :id, "--memory", 128]
 
   # Define hostname to be used with Hostmaster
-  config.vm.host_name = "opensense.slides"
-  config.hosts.name = "opensense.slides"
+  config.vm.host_name = "laravel.slides"
+  config.hosts.name = "laravel.slides"
 
   # Use hostonly network with a static IP Address
-  config.vm.network :hostonly, "172.90.90.90"
+  config.vm.network :hostonly, "172.90.90.41"
 
   # Set share folder
   use_nfs = !Kernel.is_windows?
@@ -48,22 +48,10 @@ Vagrant::Config.run do |config|
     chef.add_recipe "misc::vhost"
     chef.json = {
       :misc => {
-        :name           => "Dont-Tax-the-Internet",
-        :db_user        => "dont_tax_the_int",
-        :db_pass        => "VUoLh69JQlwU",
-        :db_name        => "dont_tax_the_int",
-        :db_dir         => "/home/vagrant/db",
-        :server_name    => "opensense.slides",
-        :server_aliases => "*.opensense.slides",
+        :server_name    => "laravel.slides",
+        :server_aliases => "*.laravel.slides",
         :docroot        => "/home/vagrant/public/",
       },
-      :mysql => {
-        :server_root_password   => 'root',
-        :server_repl_password   => 'root',
-        :server_debian_password => 'root',
-        :bind_address           => '172.90.90.90',
-        :allow_remote_root      => true
-      }
     }
   end
 end
