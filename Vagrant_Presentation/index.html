@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Vagrant &amp; Laravel</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=792, user-scalable=no">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<link rel="stylesheet" href="shower/themes/ribbon/styles/screen.css">
+	<link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+	<style>
+		#Cover h2 {
+			margin:380px 0 0;
+			color:#000;
+			text-align:center;
+			font-size:45px;
+		}
+		ul.long-list > li {
+			float: left;
+			width: 260px;
+		}
+		ul.long-list > li:before {
+			content: '';
+			width: 0;
+		}
+		ul.long-list > li > strong {
+			color: #FFF;
+			background: #C00;
+			padding: 8px;
+			margin-left: 26px;
+		}
+		ul.long-list > li > ul {
+			margin-left: 0;
+		}
+
+		sup {
+			vertical-align: super;
+			font-size: 60%;
+		}
+	</style>
+</head>
+<body class="list">
+	<header class="caption">
+		<h1>Vagrant &amp; Laravel</h1>
+		<p>Supercharging your development environment</p>
+	</header>
+
+	<section class="slide cover" style="background-color: #FFF;"><div>
+		<img src="img/capital-laravel.jpg" alt="" style="top: 36%;">
+	</div></section>
+
+	<section class="slide cover" id="Cover"><div>
+		<h2>Supercharging your development environment</h2>
+		<img src="img/cover.png" alt="">
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>What does your development environment currently look like?</h2>
+		<ul>
+			<li class="next"><strong>Installed software:</strong> XAMPP/MAMP/WAMP/Bitnami</li>
+			<li class="next"><strong>External server:</strong> Uploading files continuously/Editing remotely</li>
+			<li class="next"><strong>Virtual Machine:</strong> Vagrant</li>
+		</ul>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>So... Vagrant?</h2>
+		<figure>
+			<blockquote>
+				<p>Create and configure lightweight, reproducible, and portable development environments.</p>
+			</blockquote>
+			<figcaption>vagrantup.com</figcaption>
+		</figure>
+	</div></section>
+
+	<section class="slide cover"><div>
+		<img src="img/vagrant-flow.png" alt="">
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>A few examples</h2>
+		<ul class="long-list">
+			<li class="next"><strong>Providers</strong><ul>
+				<li>VirtualBox</li>
+				<li>VMWare</li>
+				<li>AWS</li>
+				<li>Rackspace</li>
+			</ul></li>
+			<li class="next"><strong>Provisioners</strong><ul>
+				<li>Chef</li>
+				<li>Puppet</li>
+				<li>Salt</li>
+				<li>Bash</li>
+			</ul></li>
+			<li class="next"><strong>Plugins</strong><ul>
+				<li>Berkshelf</li>
+				<li>Librarian</li>
+				<li>Hostmanager</li>
+				<li>Omnibus</li>
+			</ul></li>
+		</ul>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Vagrantfile</h2>
+		<pre>
+			<code>Vagrant.configure(<mark>"2"</mark>) do |config|</code>
+		    <code>  config.vm.box = <mark>"precise32"</mark></code>
+		    <code>  config.vm.box_url = <mark>"http://files.vagrantup.com/precise32.box"</mark></code>
+		    <code>  config.vm.synced_folder <mark>"./"</mark> , <mark>"/var/www/"</mark></code>
+		    <code>  config.vm.provision :shell, :inline =>
+<mark>"apt-get install php mysql-server --yes"</mark></code>
+		    <code>end</code>
+		</pre>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Cookbooks</h2>
+		<ul class="long-list">
+			<li class="next"><strong>Official cookbooks</strong><ul>
+				<li>apache2</li>
+				<li>apt</li>
+				<li>php</li>
+				<li>mysql</li>
+				<li>git</li>
+				<li>memcached</li>
+			</ul></li>
+			<li class="next"><strong>3<sup>rd</sup> party cookbooks</strong><ul>
+				<li>redis</li>
+				<li>beanstalkd</li>
+				<li>npm</li>
+				<li>beanstalk_console</li>
+			</ul></li>
+			<li class="next"><strong>Site-cookbooks</strong><ul>
+				<li>"laravel"<ul>
+					<li class="next">vhost</li>
+					<li class="next">database</li>
+					<li class="next">packages</li>
+					<li class="next">web server packages</li>
+				</ul></li>
+			</ul></li>
+		</ul>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>Berksfile</h2>
+		<pre>
+			<code>site <mark>:opscode</mark></code>
+			<code>cookbook <mark>'php'</mark></code>
+			<code>cookbook <mark>'memcached'</mark></code>
+			<code>cookbook <mark>'mysql'</mark></code>
+			<code>cookbook <mark>'redis'</mark>, git: <mark>'git://github.com/miah/chef-redis'</mark></code>
+			<code>cookbook <mark>'beanstalkd'</mark>, git: <mark>'git://github.com/escapestudios/chef-beanstalkd'</mark></code>
+			<code>cookbook <mark>'npm'</mark>, git: <mark>'git://github.com/balbeko/chef-npm'</mark></code>
+			<code>cookbook <mark>'laravel'</mark>, path: <mark>'./site-cookbooks/laravel'</mark></code>
+		</pre>
+	</div></section>
+
+	<section class="slide"><div>
+		<h2>A good place to start</h2>
+		<p><span class="icon-github"></span> <a href="https://github.com/MiniCodeMonkey/Vagrant-Laravel-Stack" target="_blank">https://github.com/MiniCodeMonkey/Vagrant-Laravel-Stack</a></p>
+	</div></section>
+
+	<section class="slide shout"><div>
+		<h2>Questions?</h2>
+	</div></section>
+
+	<section class="slide cover" style="background-color: #FFF;"><div>
+		<img src="img/capital-laravel.jpg" alt="" style="top: 36%;">
+	</div></section>
+
+	<div class="progress"><div></div></div>
+	<script src="shower/shower.min.js"></script>
+</body>
+</html>
